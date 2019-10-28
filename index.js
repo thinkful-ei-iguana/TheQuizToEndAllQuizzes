@@ -48,7 +48,7 @@ function renderOptions(){
         <span id="js-r${i+1}"></span>
     `);
   }
-  if (questionNumber < STORE.questions.length){
+  if (questionNumber<STORE.questions.length){
       return ;
     }
 }
