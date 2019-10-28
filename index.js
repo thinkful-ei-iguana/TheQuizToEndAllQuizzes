@@ -9,9 +9,7 @@ function renderQuestion(){
   updateQuestionNumber();
   updateScore();
   const questionHtml = $(`
-  <div>
-    <form id="js-questions" class="question-form">
-      
+  <div class="questionDiv">  
       <fieldset>
         <div class="row question">
           <div class="col-12">
@@ -30,8 +28,7 @@ function renderQuestion(){
           <button type = "submit" id="finalAnswer" tabindex="5">Final Answer</button>
         </div>
       </div>
-    </fieldset>
-    </form>
+    </fieldset>  
   </div>`);
 $('.questionArea').html(questionHtml);
 renderAnswers();
@@ -53,11 +50,11 @@ function renderAnswers(){
 function startQuiz(){
   // upon hitting the start quiz button, this will render the first
   // quiz question
-  $('.quizInitializationArea').submit(function(event){
+  $('.initializationPage').submit(function(event){
     event.preventDefault();
     renderQuestion();
-    $('.quizInitializationArea').hide();
-    //console.log('startQuiz is running');
+    $('.initializationPage').delete();
+    console.log('startQuiz is running');
   });
 }
 
@@ -67,10 +64,10 @@ function checkingAnswer(){
 
 //Submit Function **has to work with keyboard
 function submitAnswer(){
-  $('.questionArea').submit(function(event){
+  $('.questionDiv').submit(function(event){
     event.preventDefault();
     console.log(`submitAnswer ran`);
-    renderQuestion();    
+    renderAnswerResult();    
   });
 }
 
@@ -78,14 +75,46 @@ function submitAnswer(){
 function renderAnswerResult(){
   //this function will check the answer input against the 
   //correct answer from the STORE array.
+  let answer = STORE.questions[STORE.questionNumber];
+
+  const resultsHtml = $(`
+  <div>
+    <form id="js-questions" class="question-form">
+      
+      <fieldset>
+        <div class="row question">
+          <div class="col-12">
+            <legend> ${answer.question}</legend>
+          </div>
+        </div>
+
+        <div class="row answers">
+          <div class="col-12">
+            <div class="js-answers"> </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <button type = "submit" id="nextQuestion" tabindex="5">Next Question</button>
+        </div>
+      </div>
+    </fieldset>
+    </form>
+  </div>`);
+  $('.questionArea').html(resultsHtml);
 
 }
 
 //Next Function
-function nextQuestion(){
+function nextQuestion(){  
   //this function will take a button press and move us
   //to the next question in the STORE.  Will need to 
   //
+  // $('.quizArea').submit('nextQuestion', function(event){
+  //   event.preventDefault();
+  //   renderQuestion();
+  // })
 }
 
 //Function to Move Quiz to Results Page
