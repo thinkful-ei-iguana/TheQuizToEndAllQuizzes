@@ -6,9 +6,12 @@ function renderQuestion(){
   //Filled with the html elements of the quiz form.
   console.log('`renderQuiz` ran');
   if (questionNumber < STORE.questions.length){
-    
-  }
-  
+      return ;
+    }
+}
+
+function questionFormGenerator(index){
+
 }
 
 function checkingAnswer(answerId){
@@ -23,14 +26,15 @@ function submitAnswer(){
   $('###placeholder').on('submit', '.js-submitAnswer', event =>{
     const currentAnswer = '###Placeholder for radial answer target'
     checkingAnswer(answer);
-  })
+  });
   console.log('Submitting Answer');
-   
 }
+
 //Check answer function
 function checkAnswer(){
   //this function will check the answer input against the 
   //correct answer from the STORE array.
+
 }
 
 //Next Function
@@ -52,16 +56,26 @@ function resultsPage(){
 function startQuiz(){
 // upon hitting the start quiz button, this will render the first
 // quiz question
+  $('.landingPage').hide();
+  $('.startQuiz').on('submit', '.startButton', event => {
+  
+  });
 }
 
 //Function Restart Quiz
 function restartQuiz(){
   //when you click the button, resets the question number and score
   //and re-renders the quiz.
+  reInitialize();
+}
+
+function reInitialize(){
+  let questionNumber = 0;
+  let score = 0;
 }
 
 //Function Update Score
-function updateScore(Score){
+function updateScore(score){
   //this function will add to score if the
   //person got the previous question correct.
   //will need to call a comparison function which compares
@@ -71,7 +85,7 @@ function updateScore(Score){
 
 
 //Function Update Question Number
-function updateQuestionNumber(){
+function updateQuestionNumber(questionNumber){
   //this function will add to the question number
   //every time that the next question button is invoked.
   questionNumber++;
