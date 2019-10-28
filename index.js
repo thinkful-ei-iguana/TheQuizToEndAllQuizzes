@@ -4,11 +4,55 @@
 // Render Function
 function renderQuestion(){
   //Filled with the html elements of the quiz form.
-  console.log('`renderQuiz` ran');
-  // if (questionNumber < STORE.questions.length){
-  //     return ;
-  //   }
+  // console.log('`renderQuestion` ran');
+  let question = STORE.questions[STORE.questionNumber];
+  // updateQuestionAndScore();
+  const questionHtml = $(`
+  <div>
+    <form id="js-questions" class="question-form">
+      
+      <fieldset>
+        <div class="row question">
+          <div class="col-12">
+            <legend> ${question.question}</legend>
+          </div>
+        </div>
+
+        <div class="row options">
+          <div class="col-12">
+            <div class="js-options"> </div>
+        </div>
+      </div>
+    
+
+      <div class="row">
+        <div class="col-12">
+          <button type = "submit" id="answer" tabindex="5">Submit</button>
+          <button type = "button" id="next-question" tabindex="6"> Next >></button>
+        </div>
+      </div>
+    </fieldset>
+    </form>
+  </div>`);
+$("main").html(questionHtml);
+renderOptions();
+// $("#next-question").hide();
 }
+
+function renderOptions(){
+  let question = STORE.questions[STORE.questionNumber];
+  for(let i=0; i<question.answers.length; i++){
+    $('.js-options').append(`
+        <input type = "radio" name="options" id="option${i+1}" value= "${question.answers[i]}" tabindex ="${i+1}"> 
+        <label for="option${i+1}"> ${question.answers[i]}</label> <br/>
+        <span id="js-r${i+1}"></span>
+    `);
+  }
+  if (questionNumber < STORE.questions.length){
+      return ;
+    }
+}
+
 
 function questionFormGenerator(index){
 
@@ -18,27 +62,29 @@ function questionFormGenerator(index){
 function startQuiz(){
   // upon hitting the start quiz button, this will render the first
   // quiz question
-    $('.quizStartForm').on('submit', '.startButton button', event => {
-      ('.quizStartForm').hide();
-      ('.questionForm').show();
-      console.log('startQuiz is running');
-    });
-  }
+  $('.quizInitializationArea').submit(function(event){
+    event.preventDefault();
+    renderQuestion();
+    $('.quizInitializationArea').hide();
+    // ('.questionForm').show();
+    console.log('startQuiz is running');
+  });
+}
 
 function checkingAnswer(answerId){
-  console.log('Checking submitted answer against logged answer.')
-  const answer = STORE.find(answer => answer.id === answerId);
-  answer.checked = !answer.checked;
+  // console.log('Checking submitted answer against logged answer.')
+  // const answer = STORE.find(answer => answer.id === answerId);
+  // answer.checked = !answer.checked;
 }
 
 //Submit Function **has to work with keyboard
 function submitAnswer(){
   //this function will submit the user input
-  $('###placeholder').on('submit', '.js-submitAnswer', event =>{
-    const currentAnswer = '###Placeholder for radial answer target'
-    checkingAnswer(answer);
-  });
-  console.log('Submitting Answer');
+  // $('###placeholder').on('submit', '.js-submitAnswer', event =>{
+  //   const currentAnswer = '###Placeholder for radial answer target'
+  //   checkingAnswer(answer);
+  // });
+  // console.log('Submitting Answer');
 }
 
 //Check answer function
@@ -95,7 +141,6 @@ function updateQuestionNumber(questionNumber){
 //master function -- runs the functions to make the quiz.
 function itsQuizTime(){
   startQuiz();
-  renderQuestion();
   submitAnswer();
   nextQuestion();
   restartQuiz();
