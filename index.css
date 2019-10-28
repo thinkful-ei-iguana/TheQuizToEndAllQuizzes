@@ -8,11 +8,20 @@ img {
     max-width: 100%;
 }
 
+button {
+    background-color: gray;
+    border-radius: 12px;
+    border-color: blue;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
 .container {
     margin: 0 auto;
     background: #f2f2f2;
     box-sizing: border-box;
+    color: black;
 }
+
 /* Mobile phones (portrait and landscape) ---------- */
 @media screen and (max-width: 767px){
     .container {
