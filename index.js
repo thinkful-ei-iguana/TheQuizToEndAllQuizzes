@@ -9,29 +9,30 @@ function renderQuestion(){
   updateQuestionNumber();
   updateScore();
   const questionHtml = $(`
-  <div class="questionDiv">  
-      <fieldset>
-        <div class="row question">
+  <form class="questionForm">
+    <div class="questionDiv">  
+        <fieldset>
+          <div class="row question">
+            <div class="col-12">
+              <legend> ${question.question}</legend>
+            </div>
+          </div>
+
+          <div class="row answers">
+            <div class="col-12">
+              <div class="js-answers"> </div>
+          </div>
+
+        <div class="row">
           <div class="col-12">
-            <legend> ${question.question}</legend>
+            <button type = "submit" id="finalAnswer" tabindex="5">Final Answer</button>
           </div>
         </div>
-
-        <div class="row answers">
-          <div class="col-12">
-            <div class="js-answers"> </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-12">
-          <button type = "submit" id="finalAnswer" tabindex="5">Final Answer</button>
-        </div>
-      </div>
-    </fieldset>  
-  </div>`);
-$('.questionArea').html(questionHtml);
-renderAnswers();
+      </fieldset>  
+    </div>
+  </form>`);
+  $('.questionArea').html(questionHtml);
+  renderAnswers();
 // $("#next-question").hide();
 }
 
@@ -50,10 +51,10 @@ function renderAnswers(){
 function startQuiz(){
   // upon hitting the start quiz button, this will render the first
   // quiz question
-  $('.initializationPage').submit(function(event){
+  $('#startButton').on('click', function(event){
     event.preventDefault();
     renderQuestion();
-    $('.initializationPage').delete();
+    $('.initializationPage').hide();
     console.log('startQuiz is running');
   });
 }
@@ -64,57 +65,91 @@ function checkingAnswer(){
 
 //Submit Function **has to work with keyboard
 function submitAnswer(){
-  $('.questionDiv').submit(function(event){
-    event.preventDefault();
-    console.log(`submitAnswer ran`);
-    renderAnswerResult();    
-  });
+  
 }
 
 //Check answer function
 function renderAnswerResult(){
   //this function will check the answer input against the 
   //correct answer from the STORE array.
-  let answer = STORE.questions[STORE.questionNumber];
+  let answer = STORE.questions[STORE.questionNumber-1];
 
   const resultsHtml = $(`
-  <div>
-    <form id="js-questions" class="question-form">
-      
-      <fieldset>
-        <div class="row question">
-          <div class="col-12">
-            <legend> ${answer.question}</legend>
+    <form class="questionResults">
+      <div class="answersDiv">
+          <fieldset>
+            <div class="row question">
+              <div class="col-12">
+                <legend> ${answer.correctAnswer}</legend>
+              </div>
+            </div>
+
+            <div class="row answers">
+              <div class="col-12">
+                <div class="js-answers"> </div>
+            </div>
           </div>
-        </div>
 
-        <div class="row answers">
-          <div class="col-12">
-            <div class="js-answers"> </div>
-        </div>
+          <div class="row">
+            <div class="col-12">
+              <button type = "submit" id="nextQuestion" tabindex="5">Next Question</button>
+            </div>
+          </div>
+        </fieldset>
       </div>
-
-      <div class="row">
-        <div class="col-12">
-          <button type = "submit" id="nextQuestion" tabindex="5">Next Question</button>
-        </div>
-      </div>
-    </fieldset>
-    </form>
-  </div>`);
+    </form>`);
   $('.questionArea').html(resultsHtml);
-
 }
 
 //Next Function
 function nextQuestion(){  
   //this function will take a button press and move us
   //to the next question in the STORE.  Will need to 
-  //
-  // $('.quizArea').submit('nextQuestion', function(event){
-  //   event.preventDefault();
+  
+  
+}
+
+function progressionHandler(){
+  let submitSwitch = true;
+  $('.questionArea').submit(function(event){
+    if (STORE.questionNumber <= STORE.answers.length && submitSwitch === true){
+      event.preventDefault();
+      renderAnswerResult();
+      console.log(`submitAnswer ran`);
+      submitSwitch = false;
+    }
+    else if (STORE.questionNumber <= STORE.answers.length && submitSwitch === true){
+      event.preventDefault();
+      renderQuestion();
+      console.log('nextQuestion ran');
+      submitSwitch = true;
+    }
+    else if (STORE.questionNumber > STORE.answers.length){
+      resultsPage();
+    }
+  });
+  // if(STORE.questionNumber <= STORE.answers.length && submitSwitch === true){
+  //   submitSwitch = false;
+  //   $('.questionArea').submit(function(event){
+  //     event.preventDefault();
+  //     console.log(`submitAnswer ran`);
+  //     renderAnswerResult();    
+  //   });
+  //   renderAnswerResult();
+  // }
+  // else if(STORE.questionNumber <= STORE.answers.length && submitSwitch === true){
+  //   submitSwitch = true;
+  //   $('.questionArea').submit(function(event){
+  //     event.preventDefault();
+  //     renderQuestion();
+  //     console.log('nextQuestion ran');
+  //   });
   //   renderQuestion();
-  // })
+  // }
+  // else if(STORE.questionNumber > STORE.answers.length){
+  //   resultsPage();
+
+  // }
 }
 
 //Function to Move Quiz to Results Page
