@@ -1,18 +1,29 @@
 'use strict';
 
 
-//Render Function
+// Render Function
 function renderQuestion(){
   //Filled with the html elements of the quiz form.
   console.log('`renderQuiz` ran');
-  if (questionNumber < STORE.questions.length){
-      return ;
-    }
+  // if (questionNumber < STORE.questions.length){
+  //     return ;
+  //   }
 }
 
 function questionFormGenerator(index){
 
 }
+
+//Function Start Quiz
+function startQuiz(){
+  // upon hitting the start quiz button, this will render the first
+  // quiz question
+    $('.quizStartForm').on('submit', '.startButton button', event => {
+      ('.quizStartForm').hide();
+      ('.questionForm').show();
+      console.log('startQuiz is running');
+    });
+  }
 
 function checkingAnswer(answerId){
   console.log('Checking submitted answer against logged answer.')
@@ -50,16 +61,6 @@ function resultsPage(){
   //instead of trying to render another question.
   //This page will contain the restart quiz button.
 
-}
-
-//Function Start Quiz
-function startQuiz(){
-// upon hitting the start quiz button, this will render the first
-// quiz question
-  $('.landingPage').hide();
-  $('.startQuiz').on('submit', '.startButton', event => {
-  
-  });
 }
 
 //Function Restart Quiz
