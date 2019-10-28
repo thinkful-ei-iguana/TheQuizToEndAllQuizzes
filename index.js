@@ -65,7 +65,11 @@ function checkingAnswer(){
 
 //Submit Function **has to work with keyboard
 function submitAnswer(){
-  
+  $('.questionArea').submit(function(event){
+    event.preventDefault();
+    renderQuestion();
+    console.log(`submitAnswer ran`);
+  });
 }
 
 //Check answer function
@@ -110,24 +114,24 @@ function nextQuestion(){
 }
 
 function progressionHandler(){
-  let submitSwitch = true;
-  $('.questionArea').submit(function(event){
-    if (STORE.questionNumber <= STORE.answers.length && submitSwitch === true){
-      event.preventDefault();
-      renderAnswerResult();
-      console.log(`submitAnswer ran`);
-      submitSwitch = false;
-    }
-    else if (STORE.questionNumber <= STORE.answers.length && submitSwitch === true){
-      event.preventDefault();
-      renderQuestion();
-      console.log('nextQuestion ran');
-      submitSwitch = true;
-    }
-    else if (STORE.questionNumber > STORE.answers.length){
-      resultsPage();
-    }
-  });
+  // let submitSwitch = true;
+  // $('.questionArea').submit(function(event){
+  //   if (STORE.questionNumber <= STORE.answers.length && submitSwitch === true){
+  //     event.preventDefault();
+  //     renderAnswerResult();
+  //     console.log(`submitAnswer ran`);
+  //     submitSwitch = false;
+  //   }
+  //   else if (STORE.questionNumber <= STORE.answers.length && submitSwitch === false){
+  //     event.preventDefault();
+  //     renderQuestion();
+  //     console.log('nextQuestion ran');
+  //     submitSwitch = true;
+  //   }
+  //   else if (STORE.questionNumber > STORE.answers.length){
+  //     resultsPage();
+  //   }
+  // });
   // if(STORE.questionNumber <= STORE.answers.length && submitSwitch === true){
   //   submitSwitch = false;
   //   $('.questionArea').submit(function(event){
