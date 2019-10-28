@@ -6,7 +6,8 @@ function renderQuestion(){
   //Filled with the html elements of the quiz form.
   // console.log('`renderQuestion` ran');
   let question = STORE.questions[STORE.questionNumber];
-  // updateQuestionAndScore();
+  updateQuestionNumber();
+  updateScore();
   const questionHtml = $(`
   <div>
     <form id="js-questions" class="question-form">
@@ -18,44 +19,34 @@ function renderQuestion(){
           </div>
         </div>
 
-        <div class="row options">
+        <div class="row answers">
           <div class="col-12">
-            <div class="js-options"> </div>
+            <div class="js-answers"> </div>
         </div>
       </div>
-    
 
       <div class="row">
         <div class="col-12">
-          <button type = "submit" id="answer" tabindex="5">Submit</button>
-          <button type = "button" id="next-question" tabindex="6"> Next >></button>
+          <button type = "submit" id="finalAnswer" tabindex="5">Final Answer</button>
         </div>
       </div>
     </fieldset>
     </form>
   </div>`);
-$("main").html(questionHtml);
-renderOptions();
+$('.questionArea').html(questionHtml);
+renderAnswers();
 // $("#next-question").hide();
 }
 
-function renderOptions(){
-  let question = STORE.questions[STORE.questionNumber];
+function renderAnswers(){
+  let question = STORE.questions[STORE.questionNumber-1];
   for(let i=0; i<question.answers.length; i++){
-    $('.js-options').append(`
-        <input type = "radio" name="options" id="option${i+1}" value= "${question.answers[i]}" tabindex ="${i+1}"> 
-        <label for="option${i+1}"> ${question.answers[i]}</label> <br/>
+    $('.js-answers').append(`
+        <input type = "radio" name="answers" id="answer${i+1}" value= "${question.answers[i]}" tabindex ="${i+1}"> 
+        <label for="answer${i+1}"> ${question.answers[i]}</label> <br/>
         <span id="js-r${i+1}"></span>
     `);
   }
-  if (questionNumber<STORE.questions.length){
-      return ;
-    }
-}
-
-
-function questionFormGenerator(index){
-
 }
 
 //Function Start Quiz
@@ -66,29 +57,25 @@ function startQuiz(){
     event.preventDefault();
     renderQuestion();
     $('.quizInitializationArea').hide();
-    // ('.questionForm').show();
-    console.log('startQuiz is running');
+    //console.log('startQuiz is running');
   });
 }
 
-function checkingAnswer(answerId){
-  // console.log('Checking submitted answer against logged answer.')
-  // const answer = STORE.find(answer => answer.id === answerId);
-  // answer.checked = !answer.checked;
+function checkingAnswer(){
+  
 }
 
 //Submit Function **has to work with keyboard
 function submitAnswer(){
-  //this function will submit the user input
-  // $('###placeholder').on('submit', '.js-submitAnswer', event =>{
-  //   const currentAnswer = '###Placeholder for radial answer target'
-  //   checkingAnswer(answer);
-  // });
-  // console.log('Submitting Answer');
+  $('.questionArea').submit(function(event){
+    event.preventDefault();
+    console.log(`submitAnswer ran`);
+    renderQuestion();    
+  });
 }
 
 //Check answer function
-function checkAnswer(){
+function renderAnswerResult(){
   //this function will check the answer input against the 
   //correct answer from the STORE array.
 
@@ -107,6 +94,7 @@ function resultsPage(){
   //instead of trying to render another question.
   //This page will contain the restart quiz button.
 
+
 }
 
 //Function Restart Quiz
@@ -117,25 +105,25 @@ function restartQuiz(){
 }
 
 function reInitialize(){
-  let questionNumber = 0;
-  let score = 0;
+  STORE.questionNumber = 0;
+  STORE.score = 0;
 }
 
 //Function Update Score
-function updateScore(score){
+function updateScore(){
   //this function will add to score if the
   //person got the previous question correct.
   //will need to call a comparison function which compares
   //answer to the correctAnswer in STORE.
-  score++;
+  STORE.score++;
 }
 
 
 //Function Update Question Number
-function updateQuestionNumber(questionNumber){
+function updateQuestionNumber(){
   //this function will add to the question number
   //every time that the next question button is invoked.
-  questionNumber++;
+  STORE.questionNumber++;
 }
 
 //master function -- runs the functions to make the quiz.
