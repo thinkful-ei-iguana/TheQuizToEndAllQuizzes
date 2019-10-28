@@ -1,11 +1,13 @@
 'use strict';
 
-function generateQuizString()
 
 //Render Function
-function renderQuiz(){
+function renderQuestion(){
   //Filled with the html elements of the quiz form.
   console.log('`renderQuiz` ran');
+  if (questionNumber < STORE.questions.length){
+    
+  }
   
 }
 
@@ -64,6 +66,7 @@ function updateScore(Score){
   //person got the previous question correct.
   //will need to call a comparison function which compares
   //answer to the correctAnswer in STORE.
+  score++;
 }
 
 
@@ -71,4 +74,16 @@ function updateScore(Score){
 function updateQuestionNumber(){
   //this function will add to the question number
   //every time that the next question button is invoked.
+  questionNumber++;
 }
+
+//master function -- runs the functions to make the quiz.
+function itsQuizTime(){
+  startQuiz();
+  renderQuestion();
+  submitAnswer();
+  nextQuestion();
+  restartQuiz();
+}
+
+$(itsQuizTime);
