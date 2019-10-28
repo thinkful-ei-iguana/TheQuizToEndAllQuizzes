@@ -1,13 +1,29 @@
 'use strict';
 
+function generateQuizString()
+
 //Render Function
 function renderQuiz(){
   //Filled with the html elements of the quiz form.
+  console.log('`renderQuiz` ran');
+  
+}
+
+function checkingAnswer(answerId){
+  console.log('Checking submitted answer against logged answer.')
+  const answer = STORE.find(answer => answer.id === answerId);
+  answer.checked = !answer.checked;
 }
 
 //Submit Function **has to work with keyboard
 function submitAnswer(){
   //this function will submit the user input
+  $('###placeholder').on('submit', '.js-submitAnswer', event =>{
+    const currentAnswer = '###Placeholder for radial answer target'
+    checkingAnswer(answer);
+  })
+  console.log('Submitting Answer');
+   
 }
 //Check answer function
 function checkAnswer(){
