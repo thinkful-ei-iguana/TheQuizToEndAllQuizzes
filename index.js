@@ -6,7 +6,6 @@ function renderQuestion() {
   //Filled with the html elements of the quiz form.
   let question = STORE.questions[STORE.questionNumber];
   updateQuestionNumber();
-  displayQuestionNumber();
   displayScore();
   const questionHtml = $(`
   <form class="questionForm">
