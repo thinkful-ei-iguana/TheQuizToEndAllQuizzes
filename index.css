@@ -27,8 +27,9 @@ fieldset {
     border:2px solid blue;
     -moz-border-radius:8px;
     -webkit-border-radius:8px;
-    border-radius:8px;
-    margin: 8px;
+    border-radius:8px 10px;
+    margin: 100px;
+    padding: 100px;
 }
 
 .container {
@@ -36,18 +37,35 @@ fieldset {
   background: #f2f2f2;
   box-sizing: border-box;
   color: black;
+  border-radius: 25px;
+  padding: 20px;
+  width: 200px;
+  height: auto;
+  text-align: center;
 }
 
 .quizTitle {
   font-family: cursive, sans-serif;
   color: blue;
-  border-radius: 25px;
-  /* background: #73ad21; */
-  padding: 20px;
-  margin-left: auto;
-    margin-right: auto;
-    width: 8em;
+  margin: auto;
+  text-align: center;
+    /* width: 8em; */
     font-weight: 800;
+    font-size: 50px;
+}
+.main-screen-text {
+    font-family: cursive;
+    font-size: 30px;
+
+
+}
+
+.questionResult {
+    margin: auto;
+}
+
+.answersDiv {
+    margin: auto;
 }
 
 /* Mobile phones (portrait and landscape) ---------- */
@@ -79,31 +97,11 @@ fieldset {
   }
 }
 
-input[type="text"],
-select,
-textarea {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  resize: vertical;
-}
-
 label {
   padding: 12px 12px 12px 0;
   display: inline-block;
 }
 
-input[type="submit"] {
-  background-color: #4caf50;
-  color: white;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  float: right;
-}
-
-input[type="submit"]:hover {
-  background-color: #45a049;
+button[type="submit"]:hover {
+  background-color:black;
 }
