@@ -1,5 +1,5 @@
 'use strict';
-
+let movementCounter = 0;
 
 // Render Function
 function renderQuestion(){
@@ -11,24 +11,15 @@ function renderQuestion(){
   const questionHtml = $(`
   <form class="questionForm">
     <div class="questionDiv">  
-        <fieldset>
-          <div class="row question">
-            <div class="col-12">
-              <legend> ${question.question}</legend>
-            </div>
-          </div>
+      <div>
+        <legend> ${question.question}</legend>
+      </div>
 
-          <div class="row answers">
-            <div class="col-12">
-              <div class="js-answers"> </div>
-          </div>
+      <div class="answers"> </div>
 
-        <div class="row">
-          <div class="col-12">
-            <button type = "submit" id="finalAnswer" tabindex="5">Final Answer</button>
-          </div>
-        </div>
-      </fieldset>  
+      <div class="button">
+        <button type = "submit" class="finalAnswer" tabindex="5">Final Answer</button>      
+      </div>  
     </div>
   </form>`);
   $('.questionArea').html(questionHtml);
@@ -39,7 +30,7 @@ function renderQuestion(){
 function renderAnswers(){
   let question = STORE.questions[STORE.questionNumber-1];
   for(let i=0; i<question.answers.length; i++){
-    $('.js-answers').append(`
+    $('.answers').append(`
         <input type = "radio" name="answers" id="answer${i+1}" value= "${question.answers[i]}" tabindex ="${i+1}"> 
         <label for="answer${i+1}"> ${question.answers[i]}</label> <br/>
         <span id="js-r${i+1}"></span>
@@ -59,13 +50,28 @@ function startQuiz(){
   });
 }
 
-function checkingAnswer(){
+function checkAnswer(){
   
 }
 
 //Submit Function **has to work with keyboard
 function submitAnswer(){
-  
+  $('body').on('submit', function(event){
+    event.preventDefault();
+    console.log(movementCounter);
+    if(STORE.questions.length === (movementCounter+1)/2){
+      resultsPage();
+    }
+    else if(movementCounter % 2 === 0){
+      movementCounter++;
+      renderAnswerResult();}
+    else if (movementCounter %2 === 1) {
+      movementCounter++;
+      renderQuestion();
+    }
+    
+    console.log(`submitAnswer ran`);
+  });
 }
 
 //Check answer function
@@ -73,7 +79,6 @@ function renderAnswerResult(){
   //this function will check the answer input against the 
   //correct answer from the STORE array.
   let answer = STORE.questions[STORE.questionNumber-1];
-
   const resultsHtml = $(`
     <form class="questionResults">
       <div class="answersDiv">
@@ -92,7 +97,7 @@ function renderAnswerResult(){
 
           <div class="row">
             <div class="col-12">
-              <button type = "submit" id="nextQuestion" tabindex="5">Next Question</button>
+              <button type="submit" id="nextQuestion" tabindex="5">Next Question</button>
             </div>
           </div>
         </fieldset>
@@ -109,66 +114,45 @@ function nextQuestion(){
   
 }
 
-function progressionHandler(){
-  let submitSwitch = true;
-  $('.questionArea').submit(function(event){
-    if (STORE.questionNumber <= STORE.answers.length && submitSwitch === true){
-      event.preventDefault();
-      renderAnswerResult();
-      console.log(`submitAnswer ran`);
-      submitSwitch = false;
-    }
-    else if (STORE.questionNumber <= STORE.answers.length && submitSwitch === true){
-      event.preventDefault();
-      renderQuestion();
-      console.log('nextQuestion ran');
-      submitSwitch = true;
-    }
-    else if (STORE.questionNumber > STORE.answers.length){
-      resultsPage();
-    }
-  });
-  // if(STORE.questionNumber <= STORE.answers.length && submitSwitch === true){
-  //   submitSwitch = false;
-  //   $('.questionArea').submit(function(event){
-  //     event.preventDefault();
-  //     console.log(`submitAnswer ran`);
-  //     renderAnswerResult();    
-  //   });
-  //   renderAnswerResult();
-  // }
-  // else if(STORE.questionNumber <= STORE.answers.length && submitSwitch === true){
-  //   submitSwitch = true;
-  //   $('.questionArea').submit(function(event){
-  //     event.preventDefault();
-  //     renderQuestion();
-  //     console.log('nextQuestion ran');
-  //   });
-  //   renderQuestion();
-  // }
-  // else if(STORE.questionNumber > STORE.answers.length){
-  //   resultsPage();
-
-  // }
-}
 
 //Function to Move Quiz to Results Page
 function resultsPage(){
   //If question number advances past 5, move to this page
   //instead of trying to render another question.
   //This page will contain the restart quiz button.
-
-
+  let finalResultsHtml = $(
+  `<div class="results">
+      <form id="js-restart-quiz">
+        <fieldset>
+          <div>
+            <legend>Your Score is: ${STORE.score}/${STORE.questions.length}</legend>
+          </div>
+        
+          <div>
+            <button type="button" id="restartButton"> Restart Quiz </button>
+          </div>
+        </fieldset>
+    </form>
+    </div>`
+  );
+  $('.questionArea').html(finalResultsHtml);
 }
 
 //Function Restart Quiz
 function restartQuiz(){
   //when you click the button, resets the question number and score
   //and re-renders the quiz.
-  reInitialize();
+  $('.questionArea').on('click', '#restartButton', function(event){
+    reInitialize();
+    movementCounter = 0;
+    renderQuestion();
+  });
 }
 
 function reInitialize(){
+  $('.questionArea').on('click','#restartButton', event => {
+    renderQuestion();
+  });
   STORE.questionNumber = 0;
   STORE.score = 0;
 }

@@ -18,5 +18,5 @@ const STORE= {
       correctAnswer: 'None of the above'}
   ],
   score: 0,
-  questionNumber: 0
+  questionNumber: 0,
 };
