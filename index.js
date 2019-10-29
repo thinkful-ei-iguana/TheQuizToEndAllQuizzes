@@ -30,7 +30,7 @@ function renderAnswers() {
   let question = STORE.questions[STORE.questionNumber - 1];
   for (let i = 0; i < question.answers.length; i++) {
     $('.answers').append(`
-        <input type="radio" name="answers" id="answer ${i + 1}" value= "${question.answers[i]}" tabindex ="${i + 1}">
+        <input type="radio" name="answers" id="answer${i + 1}" value="${question.answers[i]}" tabindex="${i + 1}">
         <label for="answer${i + 1}"> ${question.answers[i]}</label> <br/>
         <span id="js-r${i + 1}"></span>
     `);
@@ -44,7 +44,6 @@ function startQuiz() {
   $('#startButton').on('click', function(event) {
     event.preventDefault();
     renderQuestion();
-    displayQuestionNumber();
     $('.initializationPage').hide();
   });
 }
@@ -76,16 +75,13 @@ function submitAnswer() {
     event.preventDefault();
     if (STORE.questions.length === (movementCounter + 1) / 2) {
       resultsPage();
-      displayQuestionNumber();
       displayScore();
     } else if (movementCounter % 2 === 0) {
       checkAnswer();
-      displayQuestionNumber();
       displayScore();
     } else if (movementCounter % 2 === 1) {
       movementCounter++;
       renderQuestion();
-      displayQuestionNumber();
       displayScore();
     }
   });
@@ -169,14 +165,8 @@ function updateQuestionNumber() {
 //Displays Score
 function displayScore(){
   let scoreDisplay = $(`
-  <h2>Score: ${STORE.score}/${STORE.questions.length}</h2>`);
-  $('.score').html(scoreDisplay);
-}
-//Displays Question Number
-function displayQuestionNumber(){
-  let questionDisplay = $(`
-  <h2>Question: ${STORE.questionNumber} of ${STORE.questions.length}</h2>`);
-  $('.questionNumber').html(questionDisplay);
+  <h2>Score: ${STORE.score}/${STORE.questions.length} - Question:  ${STORE.questionNumber} of ${STORE.questions.length}</h2>`);
+  $('.scoring').html(scoreDisplay);
 }
 
 //master function -- runs the functions to make the quiz.
@@ -184,7 +174,6 @@ function itsQuizTime() {
   startQuiz();
   submitAnswer();
   restartQuiz();
-  displayQuestionNumber();
   displayScore();
 }
 
