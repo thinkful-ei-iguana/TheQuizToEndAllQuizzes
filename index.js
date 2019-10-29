@@ -43,7 +43,6 @@ function startQuiz() {
     event.preventDefault();
     renderQuestion();
     $('.initializationPage').hide();
-    console.log('startQuiz is running');
   });
 }
 
@@ -74,14 +73,11 @@ function submitAnswer() {
     event.preventDefault();
     if (STORE.questions.length === (movementCounter + 1) / 2) {
       resultsPage();
-      console.log('resultsPage ran');
     } else if (movementCounter % 2 === 0) {
       checkAnswer();
-      console.log('answer page ran');
     } else if (movementCounter % 2 === 1) {
       movementCounter++;
       renderQuestion();
-      console.log('nextQuestion ran')
     }
   });
 }
@@ -161,11 +157,26 @@ function updateQuestionNumber() {
   STORE.questionNumber++;
 }
 
+//Displays Score
+function displayScore(){
+  let scoreDisplay = $(`
+  <h2>Score:${STORE.score}/${STORE.questions.length}</h2>`);
+  $('.scoring').html(scoreDisplay);
+}
+//Displays Question Number
+function displayQuestionNumber(){
+  let questionDisplay = $(`
+  <h2>Question: ${STORE.questionNumber} of ${STORE.questions.length}</h2>`);
+  $('.scoring').html(questionDisplay);
+}
+
 //master function -- runs the functions to make the quiz.
 function itsQuizTime() {
   startQuiz();
   submitAnswer();
   restartQuiz();
+  displayQuestionNumber();
+  displayScore();
 }
 
 $(itsQuizTime);
