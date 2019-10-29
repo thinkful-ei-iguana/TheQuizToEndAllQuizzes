@@ -6,6 +6,8 @@ function renderQuestion() {
   //Filled with the html elements of the quiz form.
   let question = STORE.questions[STORE.questionNumber];
   updateQuestionNumber();
+  displayQuestionNumber();
+  displayScore();
   const questionHtml = $(`
   <form class="questionForm">
     <div class="questionDiv">
@@ -42,6 +44,7 @@ function startQuiz() {
   $('#startButton').on('click', function(event) {
     event.preventDefault();
     renderQuestion();
+    displayQuestionNumber();
     $('.initializationPage').hide();
   });
 }
@@ -73,11 +76,17 @@ function submitAnswer() {
     event.preventDefault();
     if (STORE.questions.length === (movementCounter + 1) / 2) {
       resultsPage();
+      displayQuestionNumber();
+      displayScore();
     } else if (movementCounter % 2 === 0) {
       checkAnswer();
+      displayQuestionNumber();
+      displayScore();
     } else if (movementCounter % 2 === 1) {
       movementCounter++;
       renderQuestion();
+      displayQuestionNumber();
+      displayScore();
     }
   });
 }
@@ -161,13 +170,13 @@ function updateQuestionNumber() {
 function displayScore(){
   let scoreDisplay = $(`
   <h2>Score:${STORE.score}/${STORE.questions.length}</h2>`);
-  $('.scoring').html(scoreDisplay);
+  $('.score').html(scoreDisplay);
 }
 //Displays Question Number
 function displayQuestionNumber(){
   let questionDisplay = $(`
   <h2>Question: ${STORE.questionNumber} of ${STORE.questions.length}</h2>`);
-  $('.scoring').html(questionDisplay);
+  $('.questionNumber').html(questionDisplay);
 }
 
 //master function -- runs the functions to make the quiz.
@@ -178,5 +187,6 @@ function itsQuizTime() {
   displayQuestionNumber();
   displayScore();
 }
+
 
 $(itsQuizTime);
