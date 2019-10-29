@@ -17,7 +17,7 @@ function renderQuestion() {
       <div class="answers"> </div>
 
       <div class="button">
-        <button type = "submit" class="finalAnswer" tabindex="5">Final Answer</button>
+        <button type="submit" class="finalAnswer" tabindex="5"> Final Answer </button>
       </div>
     </div>
   </form>`);
@@ -30,9 +30,9 @@ function renderAnswers() {
   let question = STORE.questions[STORE.questionNumber - 1];
   for (let i = 0; i < question.answers.length; i++) {
     $(".answers").append(`
-        <input type = "radio" name="answers" id="answer${i + 1}" value= "${
-  question.answers[i]
-}" tabindex ="${i + 1}">
+        <input type="radio" name="answers" id="answer ${i + 1}" value= "${
+      question.answers[i]
+    }" tabindex ="${i + 1}">
         <label for="answer${i + 1}"> ${question.answers[i]}</label> <br/>
         <span id="js-r${i + 1}"></span>
     `);
