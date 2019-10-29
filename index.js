@@ -53,7 +53,8 @@ function startQuiz() {
 
 function checkAnswer() {
   $(event.preventDefault());
-  let currentQues = STORE.questions[STORE.questionNumber];
+  let currentQues = STORE.questions[STORE.questionNumber-1];
+  console.log(currentQues);
   let selectedOption = $("input[name=answers]:checked").val();
   console.log(selectedOption);
   console.log(`checkAnswer did something`);
@@ -61,18 +62,20 @@ function checkAnswer() {
     alert("Choose an option");
     return;
   } 
-  let id_num = currentQues.answers.findIndex(i => i === selectedOption);
-  console.log(id_num);
-  let id = '#js-r' + ++id_num;
+  console.log(currentQues.correctAnswer);
+  // let id_num = currentQues.answers.findIndex(i => i === selectedOption);
+  // console.log(id_num);
+  // let id = '#js-r' + ++id_num;
   // $('span').removeClass("right-answer wrong-answer");
   if(selectedOption === currentQues.correctAnswer) {
     STORE.score++; 
-    $(`${id}`).append(`You got it right<br/>`);
-    $(`${id}`).addClass("right-answer");
+    renderAnswerResult();
+   $('#incorrect').hide();
+    console.log('This should have hidden the incorrect message because you got it right');
   }
   else {
-    $(`${id}`).append(`You got it wrong <br/> The answer is "${currentQues.correctAnswer}"<br/>`);
-    $(`${id}`).addClass("wrong-answer");
+    renderAnswerResult();
+    $('#correct').hide();
   }
 }
 
@@ -87,7 +90,6 @@ function submitAnswer() {
     } else if (movementCounter % 2 === 0) {
       movementCounter++;
       checkAnswer();
-      renderAnswerResult();
       console.log('answer page ran');
     } else if (movementCounter % 2 === 1) {
       movementCounter++;
@@ -106,16 +108,15 @@ function renderAnswerResult() {
     <form class="questionResults">
       <div class="answersDiv">
           <fieldset>
-            <div class="question">
-                <legend> ${answer.correctAnswer}</legend>
+            <div id="correct">
+                <legend> You did it! ${answer.correctAnswer} is correct!</legend>
             </div>
-
-            <div class="answers">
-                <div class="js-answers"> </div>
+            <div id="incorrect">
+              <legend>${answer.correctAnswer} is the correct answer.  You chose unwisely!</legend>
             </div>
-
+            <div>
               <button type="submit" id="nextQuestion" tabindex="5">Next Question</button>
-
+            </div>
         </fieldset>
       </div>
     </form>`);
