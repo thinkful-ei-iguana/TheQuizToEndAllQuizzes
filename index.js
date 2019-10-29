@@ -4,7 +4,6 @@ let movementCounter = 0;
 // Render Function
 function renderQuestion() {
   //Filled with the html elements of the quiz form.
-  // console.log('`renderQuestion` ran');
   let question = STORE.questions[STORE.questionNumber];
   updateQuestionNumber();
   const questionHtml = $(`
@@ -23,7 +22,6 @@ function renderQuestion() {
   </form>`);
   $('.questionArea').html(questionHtml);
   renderAnswers();
-  // $("#next-question").hide();
 }
 
 function renderAnswers() {
@@ -57,10 +55,6 @@ function checkAnswer() {
     alert('Choose an option');
     return;
   } 
-  // let id_num = currentQues.answers.findIndex(i => i === selectedOption);
-  // console.log(id_num);
-  // let id = '#js-r' + ++id_num;
-  // $('span').removeClass("right-answer wrong-answer");
   if(selectedOption === currentQues.correctAnswer) { 
     renderAnswerResult();
     movementCounter++;
@@ -94,8 +88,7 @@ function submitAnswer() {
 
 //Check answer function
 function renderAnswerResult() {
-  //this function will check the answer input against the
-  //correct answer from the STORE array.
+  //this function will display the answer to the previous question
   let answer = STORE.questions[STORE.questionNumber - 1];
   const resultsHtml = $(`
     <form class="questionResults">
@@ -158,17 +151,13 @@ function reInitialize() {
 
 //Function Update Score
 function updateScore() {
-  //this function will add to score if the
-  //person got the previous question correct.
-  //will need to call a comparison function which compares
-  //answer to the correctAnswer in STORE.
+  //this function will add to score 
   STORE.score++;
 }
 
 //Function Update Question Number
 function updateQuestionNumber() {
   //this function will add to the question number
-  //every time that the next question button is invoked.
   STORE.questionNumber++;
 }
 
