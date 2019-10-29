@@ -1,7 +1,7 @@
 html {
   width: 100%;
   height: 400px;
-  background-image: url(".../blob/gh-pages/img/backgroundquiz.jpg");
+  background-image: url("./img/backgroundquiz.jpg");
   background-size: contain;
 }
 
