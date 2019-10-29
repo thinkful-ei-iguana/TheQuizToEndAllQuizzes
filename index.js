@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 let movementCounter = 0;
 
 // Render Function
@@ -21,7 +21,7 @@ function renderQuestion() {
       </div>
     </div>
   </form>`);
-  $(".questionArea").html(questionHtml);
+  $('.questionArea').html(questionHtml);
   renderAnswers();
   // $("#next-question").hide();
 }
@@ -29,10 +29,8 @@ function renderQuestion() {
 function renderAnswers() {
   let question = STORE.questions[STORE.questionNumber - 1];
   for (let i = 0; i < question.answers.length; i++) {
-    $(".answers").append(`
-        <input type="radio" name="answers" id="answer ${i + 1}" value= "${
-      question.answers[i]
-    }" tabindex ="${i + 1}">
+    $('.answers').append(`
+        <input type="radio" name="answers" id="answer ${i + 1}" value= "${question.answers[i]}" tabindex ="${i + 1}">
         <label for="answer${i + 1}"> ${question.answers[i]}</label> <br/>
         <span id="js-r${i + 1}"></span>
     `);
@@ -43,37 +41,31 @@ function renderAnswers() {
 function startQuiz() {
   // upon hitting the start quiz button, this will render the first
   // quiz question
-  $("#startButton").on("click", function(event) {
+  $('#startButton').on('click', function(event) {
     event.preventDefault();
     renderQuestion();
-    $(".initializationPage").hide();
-    console.log("startQuiz is running");
+    $('.initializationPage').hide();
+    console.log('startQuiz is running');
   });
 }
 
 function checkAnswer() {
   $(event.preventDefault());
   let currentQues = STORE.questions[STORE.questionNumber-1];
-  console.log(currentQues);
-  let selectedOption = $("input[name=answers]:checked").val();
-  console.log(selectedOption);
-  console.log(`checkAnswer did something`);
+  let selectedOption = $('input[name=answers]:checked').val();
   if (!selectedOption) {
-    alert("Choose an option");
+    alert('Choose an option');
     return;
   } 
-  console.log(currentQues.correctAnswer);
   // let id_num = currentQues.answers.findIndex(i => i === selectedOption);
   // console.log(id_num);
   // let id = '#js-r' + ++id_num;
   // $('span').removeClass("right-answer wrong-answer");
-  if(selectedOption === currentQues.correctAnswer) {
-    STORE.score++; 
+  if(selectedOption === currentQues.correctAnswer) { 
     renderAnswerResult();
     movementCounter++;
     updateScore();
-   $('#incorrect').hide();
-    console.log('This should have hidden the incorrect message because you got it right');
+    $('#incorrect').hide();
   }
   else {
     renderAnswerResult();
@@ -84,9 +76,8 @@ function checkAnswer() {
 
 //Submit Function **has to work with keyboard
 function submitAnswer() {
-  $("body").on("submit", function(event) {
+  $('body').on('submit', function(event) {
     event.preventDefault();
-    console.log(movementCounter);
     if (STORE.questions.length === (movementCounter + 1) / 2) {
       resultsPage();
       console.log('resultsPage ran');
@@ -122,7 +113,7 @@ function renderAnswerResult() {
         </fieldset>
       </div>
     </form>`);
-  $(".questionArea").html(resultsHtml);
+  $('.questionArea').html(resultsHtml);
 }
 
 //Function to Move Quiz to Results Page
@@ -143,26 +134,26 @@ function resultsPage() {
     </form>
     </div>`
   );
-  $(".questionArea").html(finalResultsHtml);
+  $('.questionArea').html(finalResultsHtml);
 }
 
 //Function Restart Quiz
 function restartQuiz() {
   //when you click the button, resets the question number and score
   //and re-renders the quiz.
-  $(".questionArea").on("click", "#restartButton", function(event) {
+  $('.questionArea').on('click', '#restartButton', function(event) {
     reInitialize();
-    movementCounter = 0;
     renderQuestion();
   });
 }
 
 function reInitialize() {
-  $(".questionArea").on("click", "#restartButton", event => {
+  $('.questionArea').on('click', '#restartButton', event => {
     renderQuestion();
   });
   STORE.questionNumber = 0;
   STORE.score = 0;
+  movementCounter = 0;
 }
 
 //Function Update Score
@@ -185,7 +176,6 @@ function updateQuestionNumber() {
 function itsQuizTime() {
   startQuiz();
   submitAnswer();
-  nextQuestion();
   restartQuiz();
 }
 
