@@ -70,11 +70,14 @@ function checkAnswer() {
   if(selectedOption === currentQues.correctAnswer) {
     STORE.score++; 
     renderAnswerResult();
+    movementCounter++;
+    updateScore();
    $('#incorrect').hide();
     console.log('This should have hidden the incorrect message because you got it right');
   }
   else {
     renderAnswerResult();
+    movementCounter++;
     $('#correct').hide();
   }
 }
@@ -88,7 +91,6 @@ function submitAnswer() {
       resultsPage();
       console.log('resultsPage ran');
     } else if (movementCounter % 2 === 0) {
-      movementCounter++;
       checkAnswer();
       console.log('answer page ran');
     } else if (movementCounter % 2 === 1) {
@@ -121,12 +123,6 @@ function renderAnswerResult() {
       </div>
     </form>`);
   $(".questionArea").html(resultsHtml);
-}
-
-//Next Function
-function nextQuestion() {
-  //this function will take a button press and move us
-  //to the next question in the STORE.  Will need to
 }
 
 //Function to Move Quiz to Results Page
