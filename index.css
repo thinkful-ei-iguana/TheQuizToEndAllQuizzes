@@ -5,7 +5,7 @@ html {
   background-size: contain;
 }
 
- body {
+body {
   max-width: 100%;
   color: white;
 }
@@ -15,10 +15,20 @@ img {
 }
 
 button {
-  background-color: gray;
+  background-color: blue;
+  color: white;
+  margin: 8px;
   border-radius: 12px;
   border-color: blue;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+fieldset {
+    border:2px solid blue;
+    -moz-border-radius:8px;
+    -webkit-border-radius:8px;
+    border-radius:8px;
+    margin: 8px;
 }
 
 .container {
@@ -26,6 +36,18 @@ button {
   background: #f2f2f2;
   box-sizing: border-box;
   color: black;
+}
+
+.quizTitle {
+  font-family: cursive, sans-serif;
+  color: blue;
+  border-radius: 25px;
+  /* background: #73ad21; */
+  padding: 20px;
+  margin-left: auto;
+    margin-right: auto;
+    width: 8em;
+    font-weight: 800;
 }
 
 /* Mobile phones (portrait and landscape) ---------- */
@@ -84,33 +106,4 @@ input[type="submit"] {
 
 input[type="submit"]:hover {
   background-color: #45a049;
-}
-
-.col-25 {
-  float: left;
-  width: 25%;
-  margin-top: 6px;
-}
-
-.col-75 {
-  float: left;
-  width: 75%;
-  margin-top: 6px;
-}
-
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
-@media screen and (max-width: 600px) {
-  .col-25,
-  .col-75,
-  input[type="submit"] {
-    width: 100%;
-    margin-top: 0;
-  }
 }
