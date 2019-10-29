@@ -7,7 +7,6 @@ function renderQuestion() {
   // console.log('`renderQuestion` ran');
   let question = STORE.questions[STORE.questionNumber];
   updateQuestionNumber();
-  updateScore();
   const questionHtml = $(`
   <form class="questionForm">
     <div class="questionDiv">
@@ -52,7 +51,30 @@ function startQuiz() {
   });
 }
 
-function checkAnswer() {}
+function checkAnswer() {
+  $(event.preventDefault());
+  let currentQues = STORE.questions[STORE.questionNumber];
+  let selectedOption = $("input[name=answers]:checked").val();
+  console.log(selectedOption);
+  console.log(`checkAnswer did something`);
+  if (!selectedOption) {
+    alert("Choose an option");
+    return;
+  } 
+  let id_num = currentQues.answers.findIndex(i => i === selectedOption);
+  console.log(id_num);
+  let id = '#js-r' + ++id_num;
+  // $('span').removeClass("right-answer wrong-answer");
+  if(selectedOption === currentQues.correctAnswer) {
+    STORE.score++; 
+    $(`${id}`).append(`You got it right<br/>`);
+    $(`${id}`).addClass("right-answer");
+  }
+  else {
+    $(`${id}`).append(`You got it wrong <br/> The answer is "${currentQues.correctAnswer}"<br/>`);
+    $(`${id}`).addClass("wrong-answer");
+  }
+}
 
 //Submit Function **has to work with keyboard
 function submitAnswer() {
@@ -61,15 +83,17 @@ function submitAnswer() {
     console.log(movementCounter);
     if (STORE.questions.length === (movementCounter + 1) / 2) {
       resultsPage();
+      console.log('resultsPage ran');
     } else if (movementCounter % 2 === 0) {
       movementCounter++;
+      checkAnswer();
       renderAnswerResult();
+      console.log('answer page ran');
     } else if (movementCounter % 2 === 1) {
       movementCounter++;
       renderQuestion();
+      console.log('nextQuestion ran')
     }
-
-    console.log(`submitAnswer ran`);
   });
 }
 
@@ -88,7 +112,7 @@ function renderAnswerResult() {
 
             <div class="answers">
                 <div class="js-answers"> </div>
-          </div>
+            </div>
 
               <button type="submit" id="nextQuestion" tabindex="5">Next Question</button>
 
@@ -106,15 +130,13 @@ function nextQuestion() {
 
 //Function to Move Quiz to Results Page
 function resultsPage() {
-  //If question number advances past 5, move to this page
-  //instead of trying to render another question.
-  //This page will contain the restart quiz button.
+  
   let finalResultsHtml = $(
     `<div class="results">
       <form id="js-restart-quiz">
         <fieldset>
           <div>
-            <legend>Your Score is: ${STORE.score}/${STORE.questions.length}</legend>
+            <legend>Whew!<br/>You made it through.<br/>Your final tally is: ${STORE.score}/${STORE.questions.length}</legend>
           </div>
 
           <div>
