@@ -169,7 +169,7 @@ function updateQuestionNumber() {
 //Displays Score
 function displayScore(){
   let scoreDisplay = $(`
-  <h2>Score:${STORE.score}/${STORE.questions.length}</h2>`);
+  <h2>Score: ${STORE.score}/${STORE.questions.length}</h2>`);
   $('.score').html(scoreDisplay);
 }
 //Displays Question Number
