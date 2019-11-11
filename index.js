@@ -30,7 +30,7 @@ function renderAnswers() {
   for (let i = 0; i < question.answers.length; i++) {
     $('.answers').append(`
         <input type="radio" name="answers" id="answer${i + 1}" value="${question.answers[i]}" tabindex="${i + 1}">
-        <label for="answer${i + 1}"> ${question.answers[i]}</label> <br/>
+        <label for="answer${i + 1}">${question.answers[i]}</label> <br/>
         <span id="js-r${i + 1}"></span>
     `);
   }
@@ -161,7 +161,7 @@ function updateQuestionNumber() {
   STORE.questionNumber++;
 }
 
-//Displays Score
+//Displays Score and Question Number
 function displayScore(){
   let scoreDisplay = $(`
   <h2>Score: ${STORE.score}/${STORE.questions.length} - Question:  ${STORE.questionNumber} of ${STORE.questions.length}</h2>`);
