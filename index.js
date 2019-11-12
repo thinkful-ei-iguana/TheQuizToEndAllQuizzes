@@ -1,11 +1,9 @@
 'use strict';
-let movementCounter = 0;
 
 // Render Function
 function renderQuestion() {
   //Filled with the html elements of the quiz form.
-  let question = STORE.questions[STORE.questionNumber];
-  updateQuestionNumber();
+  let question = STORE.questions[STORE.questionNumber - 1];
   displayScore();
   const questionHtml = $(`
   <form class="questionForm">
@@ -17,7 +15,7 @@ function renderQuestion() {
       <div class="answers"> </div>
 
       <div class="button">
-        <button type="submit" class="finalAnswer" tabindex="5"> Final Answer </button>
+        <button type="submit" class="finalAnswer" id="finalAnswer" tabindex="5"> Final Answer </button>
       </div>
     </div>
   </form>`);
@@ -42,48 +40,55 @@ function startQuiz() {
   // quiz question
   $('#startButton').on('click', function(event) {
     event.preventDefault();
+    updateQuestionNumber();
     renderQuestion();
     $('.initializationPage').hide();
   });
 }
 
 function checkAnswer() {
-  $(event.preventDefault());
-  let currentQues = STORE.questions[STORE.questionNumber-1];
-  let selectedOption = $('input[name=answers]:checked').val();
-  if (!selectedOption) {
-    alert('Choose an option');
-    return;
-  } 
-  if(selectedOption === currentQues.correctAnswer) { 
-    renderAnswerResult();
-    movementCounter++;
-    updateScore();
-    $('#incorrect').hide();
-  }
-  else {
-    renderAnswerResult();
-    movementCounter++;
-    $('#correct').hide();
-  }
+    event.preventDefault();
+    let currentQues = STORE.questions[STORE.questionNumber - 1];
+    let selectedOption = $('input[name=answers]:checked').val();
+    if (!selectedOption) {
+      alert('Choose an option');
+      return;
+    } 
+    if(selectedOption === currentQues.correctAnswer) { 
+      renderAnswerResult();
+      updateScore();
+      $('#incorrect').hide();
+    }
+    else {
+      renderAnswerResult();
+      $('#correct').hide();
+    }
 }
 
 //Submit Function **has to work with keyboard
 function submitAnswer() {
-  $('body').on('submit', function(event) {
+  $('body').on('click', '#finalAnswer', function(event) {
     event.preventDefault();
-    if (STORE.questions.length === (movementCounter + 1) / 2) {
+    if (STORE.questionNumber >= 5) {
+      checkAnswer();
       resultsPage();
       displayScore();
-    } else if (movementCounter % 2 === 0) {
+    } else if (STORE.questionNumber < 5) {
       checkAnswer();
       displayScore();
-    } else if (movementCounter % 2 === 1) {
-      movementCounter++;
-      renderQuestion();
-      displayScore();
-    }
+     } // else if (movementCounter % 2 === 1) {
+    //   renderQuestion();
+    //   displayScore();
+    // }
   });
+}
+
+function nextQuestion() {
+  $('body').on('click', '#nextQuestion', function(event){
+    event.preventDefault();
+    updateQuestionNumber();
+    renderQuestion();
+  })
 }
 
 //Check answer function
@@ -91,7 +96,7 @@ function renderAnswerResult() {
   //this function will display the answer to the previous question
   let answer = STORE.questions[STORE.questionNumber - 1];
   const resultsHtml = $(`
-    <form class="questionResults">
+    <div class="questionResults">
       <div class="answersDiv">
           <fieldset>
             <div id="correct">
@@ -101,11 +106,11 @@ function renderAnswerResult() {
               <legend>${answer.correctAnswer} is the correct answer.  You chose unwisely!</legend>
             </div>
             <div>
-              <button type="submit" id="nextQuestion" tabindex="5">Next Question</button>
+              <button type="button" id="nextQuestion">Next Question</button>
             </div>
         </fieldset>
       </div>
-    </form>`);
+    </div>`);
   $('.questionArea').html(resultsHtml);
 }
 
@@ -114,6 +119,12 @@ function resultsPage() {
   
   let finalResultsHtml = $(
     `<div class="results">
+    <div id="correct">
+      legend> You did it! ${answer.correctAnswer} is correct!</legend>
+    </div>
+    <div id="incorrect">
+      <legend>${answer.correctAnswer} is the correct answer.  You chose unwisely!</legend>
+    </div>
       <form id="js-restart-quiz">
         <fieldset>
           <div>
@@ -127,6 +138,21 @@ function resultsPage() {
     </form>
     </div>`
   );
+
+  event.preventDefault();
+    let currentQues = STORE.questions[STORE.questionNumber - 1];
+    let selectedOption = $('input[name=answers]:checked').val();
+    if (!selectedOption) {
+      alert('Choose an option');
+      return;
+    } 
+  if(selectedOption === currentQues.correctAnswer) { 
+    updateScore();
+    $('#incorrect').hide();
+  }
+  else {
+    $('#correct').hide();
+  }
   $('.questionArea').html(finalResultsHtml);
 }
 
@@ -135,18 +161,15 @@ function restartQuiz() {
   //when you click the button, resets the question number and score
   //and re-renders the quiz.
   $('.questionArea').on('click', '#restartButton', function(event) {
+    event.preventDefault();
     reInitialize();
     renderQuestion();
   });
 }
 
 function reInitialize() {
-  $('.questionArea').on('click', '#restartButton', event => {
-    renderQuestion();
-  });
   STORE.questionNumber = 0;
   STORE.score = 0;
-  movementCounter = 0;
 }
 
 //Function Update Score
@@ -168,11 +191,16 @@ function displayScore(){
   $('.scoring').html(scoreDisplay);
 }
 
+function handleEvents(){
+  restartQuiz();
+  startQuiz();
+  nextQuestion();
+  submitAnswer();
+}
+
 //master function -- runs the functions to make the quiz.
 function itsQuizTime() {
-  startQuiz();
-  submitAnswer();
-  restartQuiz();
+  handleEvents();
   displayScore();
 }
 
